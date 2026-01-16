@@ -137,6 +137,54 @@ do
 		end
 	end)()
 	
+	Module.Boss = (function(Current)
+		if Current == 1 then
+			return {
+				"The Gorilla King",
+				"Chef",
+				"Yeti",
+				"Mob Leader",
+				"Vice Admiral",
+				"Warden",
+				"Chief Warden",
+				"Swan",
+				"Magma Admiral",
+				"Fishman Lord",
+				"Wysper",
+				"Thunder God",
+				"Cyborg",
+				"Saber Expert"
+			}
+		elseif Current == 2 then
+			return {
+				"Diamond",
+				"Jeremy",
+				"Orbitus",
+				"Don Swan",
+				"Smoke Admiral",
+				"Cursed Captain",
+				"Darkbeard",
+				"Order",
+				"Awakened Ice Admiral",
+				"Tide Keeper"
+			}
+		elseif Current == 3 then
+			return {
+				"Stone",
+				"Hydra Leader",
+				"Kilo Admiral",
+				"Captain Elephant",
+				"Beautiful Pirate",
+				"rip_indra True Form",
+				"Longma",
+				"Soul Reaper",
+				"Cake Queen"
+			}
+		end
+
+		return {}
+	end)(Module.Sea)
+	
 	Module.Data = (function()
 		local Data = {}
 
@@ -433,51 +481,54 @@ do
 		end
 
 		function EnemiesModule:GetTagged(Tags)
-			return CacheEnemies["__" .. Tags]
+			return CacheEnemies[type(Tags) == "table" and "__" .. table.concat(Tags, "_") or "__" .. Tags]
 		end
 
-		function EnemiesModule:CaculateTags(Tags)
+		function EnemiesModule:CalculateTags(Tags)
 			return type(Tags) == "string" and { Tags } or Tags
 		end
 
 		function EnemiesModule:GetByTags(Tags)
-			local TagList = self:CaculateTags(Tags)
+			local TagList = self:CalculateTags(Tags)
 			local Enemies = self:GetTagged(TagList)
-			
-			if Enemies and #Enemies > 0 then
-				for i = 1, #Enemies do
-					local Enemy = Enemies[i]
-					
-					if Module:IsAlive(Enemy) then
-						return Enemy
-					end
+
+			if not Enemies or #Enemies == 0 then
+				return nil
+			end
+
+			for i = 1, #Enemies do
+				local Enemy = Enemies[i]
+
+				if Module:IsAlive(Enemy) then
+					return Enemy
 				end
 			end
-			
+
 			return nil
 		end
 
 		function EnemiesModule:GetClosestByTags(Tags)
-			local TagList = self:CaculateTags(Tags)
+			local TagList = self:CalculateTags(Tags)
 			local Enemies = self:GetTagged(TagList)
-			
+
+			if not Enemies or #Enemies == 0 then
+				return nil
+			end
+
 			local Closest, Distance = nil, math.huge
 
-			if Enemies and #Enemies > 0 then
-				for i = 1, #Enemies do
-					local Enemy = Enemies[i]
-					
-					if not Module:IsAlive(Enemy) then continue end
-					if not Enemy.PrimaryPart then continue end
-					
-					local Magnitude = Enemy and LocalPlayer:DistanceFromCharacter(Enemy.PrimaryPart.Position)
+			for i = 1, #Enemies do
+				local Enemy = Enemies[i]
+
+				if Module:IsAlive(Enemy) and Enemy.PrimaryPart then
+					local Magnitude = LocalPlayer:DistanceFromCharacter(Enemy.PrimaryPart.Position)
 
 					if Magnitude < Distance then
 						Closest, Distance = Enemy, Magnitude
 					end
 				end
 			end
-			
+
 			return Closest
 		end
 		
