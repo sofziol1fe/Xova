@@ -201,7 +201,7 @@ local Module = {} do
 			},
 			[4] = {}
 		}
-		
+
 		Module.Bosses = (function(Current)
 			if Current == 1 then
 				return {
@@ -249,7 +249,7 @@ local Module = {} do
 
 			return {}
 		end)(Module.Sea)
-		
+
 		Module.Data = (function()
 			local Data = {}
 
@@ -1109,7 +1109,7 @@ local Module = {} do
 
 		return Combat
 	end)()
-	
+
 	Module.Inventory = (function()
 		local Cache = {
 			['Unlocked'] = setmetatable({}, { __index = function() return false end }),
@@ -1419,30 +1419,30 @@ local Module = {} do
 				end
 			end
 		end
-		
+
 		function EnemiesModule:GetReplicated(name)
 			local Nearest, Distance = nil, math.huge
 			local EnemiesList = ReplicatedStorage:GetChildren()
-			
+
 			for i = 1, #EnemiesList do
 				local Enemy = EnemiesList[i]
-				
+
 				if not Enemy:IsA('Model') then continue end
 				if not Enemy.PrimaryPart then continue end
 				if not ValidData(name, Enemy) then continue end
 
 				if Module:IsAlive(Enemy) then
 					local Magnitude = LocalPlayer:DistanceFromCharacter(Enemy.PrimaryPart.Position)
-					
+
 					if Enemy and Magnitude <= Distance then
 						Distance, Nearest = Magnitude, Enemy
 					end
 				end
 			end
-			
+
 			return Nearest
 		end
-		
+
 		function EnemiesModule:GetEnemies(range, name)
 			local Nearest, Distance = nil, math.huge
 			local EnemiesList = Enemies:GetChildren()
@@ -1519,6 +1519,12 @@ local Module = {} do
 
 	Module.RuntimeModule = (function()
 		local Runtime = {}
+		
+		local ColorMap = {
+			["Really red"] = "Pure Red",
+			["Oyster"]    = "Snow White",
+			["Hot pink"]  = "Winter Sky"
+		}
 
 		function Runtime:Chest()
 			local Chests = CollectionService:GetTagged("_ChestTagged")
@@ -1651,11 +1657,11 @@ local Module = {} do
 
 		function Runtime:ParseTime(timeText)
 			local hours, minutes, seconds = timeText:match("(%d+):(%d+):(%d+)")
-			
+
 			if hours and minutes and seconds then
 				return tonumber(hours) * 3600 + tonumber(minutes) * 60 + tonumber(seconds)
 			end
-			
+
 			local mins, secs = timeText:match("(%d+):(%d+)")
 
 			if mins and secs then
@@ -1665,9 +1671,31 @@ local Module = {} do
 			return 0
 		end
 
+		function Runtime:ValidColors(part)
+			if part and part.BrickColor then
+				return tostring(part.BrickColor) == "Lime green"
+			end
+
+			return false
+		end
+		
+		function Runtime:CalculateColors(part)
+			if part and part.BrickColor then
+				return ColorMap[tostring(part.BrickColor)]
+			end
+		end
+		
+		function Runtime:GetPartColors(Circle)
+			for _, v in pairs(Circle:GetChildren()) do
+				if v:IsA("Part") and not self:ValidColors(v) then
+					return v
+				end
+			end
+		end
+
 		return Runtime
 	end)()
-	
+
 	Module.Ocean = (function()
 		local Ocean = {}
 
@@ -1680,7 +1708,7 @@ local Module = {} do
 			['Crazy - 5'] = {-32404, 16208},
 			['??? - 6'] = {-35611, 20548},
 		}
-		
+
 		local TargetAnims = {
 			"rbxassetid://8708225668",
 			"rbxassetid://8708223619",
@@ -1751,7 +1779,7 @@ local Module = {} do
 			local bp = seat:FindFirstChild("BodyPosition") do
 				local bv = seat:FindFirstChild("BodyVelocity")
 				if not bv and bp then return end
-				
+
 				bv.MaxForce = Vector3.new(9e9, 9e9, 9e9)
 				bv.P = 0
 				bp.MaxForce = Vector3.new(0, 0, 0)
@@ -1825,7 +1853,7 @@ local Module = {} do
 
 		return Ocean
 	end)()
-	
+
 	Module.Hooking = (function()
 		local Hooking = {
 			['index'] = {}
@@ -2014,7 +2042,7 @@ local Module = {} do
 				while tick() - waitStart < waitDelay do
 					if ShouldStop(Breake) then return end
 					if Module.EnemiesModule:GetClosestByTag(enemyName) then return end
-					
+
 					task.wait(0.1)
 				end
 
@@ -2040,7 +2068,7 @@ local Module = {} do
 
 				if Module.EnemiesModule:IsSpawned(enemyName) then
 					local spawnPoints = EnemyLocations[enemyName]
-					
+
 					if spawnPoints then
 						WaitAtSpawnPoints(enemyName, spawnPoints, Breake, Teleport)
 					end
@@ -2064,7 +2092,7 @@ do
 
 			_Old = hookmetamethod(game, "__namecall", function(self, ...)
 				local method = getnamecallmethod()
-				
+
 				if tostring(self) == "PlayerGui" then
 					if method == "Destroy" or method == "Remove" or method == "ClearAllChildren" then
 						return
