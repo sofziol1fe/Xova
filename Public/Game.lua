@@ -2025,7 +2025,7 @@ local Module = {} do
 			end
 
 			if not ShouldStop(Breake) and not Module.EnemiesModule:GetClosestByTag(enemyName) then
-				WaitAtSpawnPoints(enemyName, spawnPoints, Breake)
+				WaitAtSpawnPoints(enemyName, spawnPoints, Breake, Teleport)
 			end
 		end
 
@@ -2052,7 +2052,7 @@ local Module = {} do
 		end
 
 		function Module:WaitForEnemy(Name, Breake, Teleport)
-			WaitForEnemySpawn(Name, Breake, Teleport)
+			return WaitForEnemySpawn(Name, Breake, Teleport)
 		end
 	end)
 end
