@@ -15,11 +15,10 @@ local Lighting = game:GetService('Lighting')
 local Players = game:GetService("Players")
 
 local Remotes = ReplicatedStorage:WaitForChild("Remotes")
+local Modules = ReplicatedStorage:WaitForChild("Modules")
 local GunValidator = Remotes:WaitForChild("Validator2")
 local CommF = Remotes:WaitForChild("CommF_")
 local CommE = Remotes:WaitForChild("CommE")
-
-local Modules = ReplicatedStorage:WaitForChild("Modules")
 local Net = Modules:WaitForChild("Net")
 
 local ChestModels = workspace:WaitForChild("ChestModels")
@@ -250,6 +249,234 @@ local Module = {} do
 
 			return {}
 		end)(Module.Sea)
+		
+		Module.Data = (function()
+			local Data = {}
+
+			Data['Island'] = {
+				{
+					['Pirate Starter'] = CFrame.new(1077, 16, 1439),
+					['Marine Starter'] = CFrame.new(-2922, 41, 2111),
+					['Jungle'] = CFrame.new(-1439, 62, 8),
+					['Colosseum'] = CFrame.new(-1664, 151, -3245),
+					['Frozen Village'] = CFrame.new(1221, 138, -1487),
+					['Desert'] = CFrame.new(1058, 52, 4491),
+					['Fountain City'] = CFrame.new(5269, 56, 4061),
+					['Marine Fortress'] = CFrame.new(-5094, 263, 4414),
+					['Middle Town'] = CFrame.new(-849, 74, 1625),
+					['Pirate Village'] = CFrame.new(-1151, 65, 4160),
+					['Underwater City'] = CFrame.new(61318, 19, 1525),
+					['Whirlpool'] = CFrame.new(4344, 21, -1883),
+					['Prison'] = CFrame.new(5316, 89, 699),
+					['Lower Skyland'] = CFrame.new(-5050, 278, -2732),
+					['Middle Skyland'] = CFrame.new(-4654, 873, -1762),
+					['Upper Skyland'] = CFrame.new(-7654, 5623, -1071)
+				},
+				{
+					['Kingdom of Rose'] = CFrame.new(-385, 319, 463),
+					['Green Zone'] = CFrame.new(-2435, 73, -3250),
+					['Hot and Cold'] = CFrame.new(-5507, 82, -5165),
+					['Cursed Ship'] = CFrame.new(916, 126, 33073),
+					['Snow Mountain'] = CFrame.new(1008, 446, -4906),
+					['Ice Castle'] = CFrame.new(6146, 484, -6729),
+					['Dark Arena'] = CFrame.new(3892, 14, -3616),
+					['Graveyard Island'] = CFrame.new(-5722, 9, -963),
+					['Forgotten Island'] = CFrame.new(-3026, 319, -10083),
+					['North Pole'] = CFrame.new(-5397, 12, 1454),
+				},
+				{
+					['Submerged Island'] = CFrame.new(9952, -1887, 9678),
+					['Tiki Outpost'] = CFrame.new(9952, -1887, 9678),
+					['Castle on the Sea'] = CFrame.new(-5086, 315, -2974),
+					['Hydra Island'] = CFrame.new(5164, 1174, 222),
+					['Peanut Island'] = CFrame.new(-2111, 193, -10243),
+					['Ice Cream Island'] = CFrame.new(-801, 210, -10999),
+					['Cake Loaf'] = CFrame.new(-1748, 489, -12360),
+					['Chocolate Island'] = CFrame.new(256, 124, -12549),
+					['North Pole'] = CFrame.new(-906, 89, -14666),
+					['Port Town'] = CFrame.new(-390, 11, 5244),
+					['Great Tree'] = CFrame.new(3295, 776, -6281),
+					['Haunted Castle'] = CFrame.new(-9499, 500, 6009),
+					['Floating Turtle'] = CFrame.new(-12310, 1163, -9968)
+				},
+				{}
+			}
+
+			local IslandString = {}
+
+			do
+				for name, _ in pairs(Data['Island'][Module.Sea]) do
+					table.insert(IslandString, name)
+				end
+			end
+
+			Module.IslandString = IslandString
+
+			Data['Place'] = {
+				{
+					["Cyborg's Domain"] = CFrame.new(6271, 71, 4000),
+					["Thunder God's Domain"] = CFrame.new(-7989, 5814, -2030),
+					["Saber Expert's Domain"] = CFrame.new(-1425, 30, -14)
+				},
+				{
+					['Cafe'] = CFrame.new(-377, 73, 290),
+					['Basement Cafe'] = CFrame.new(-350, 16, 242),
+					['Mansion'] = CFrame.new(-392, 374, 720),
+					["Swan's Room"] = CFrame.new(2462, 15, 695),
+					['Raid'] = CFrame.new(-6535, 310, -4745),
+					['Labs'] = CFrame.new(-5548, 224, -5899),
+					['Colosseum'] = CFrame.new(-1822, 46, 1411),
+				},
+				{
+					["Beautiful Pirate's Domain"] = CFrame.new(5339, 22, -328),
+					['Head Castle on the Sea'] = CFrame.new(-5421, 1090, -2666),
+					['Mansion'] = CFrame.new(-12552, 337, -7504),
+					['Dragon Dojo'] = CFrame.new(5701, 1207, 924),
+					['Friendly Arena'] = CFrame.new(5012, 59, -1571),
+					['Waterfall'] = CFrame.new(5174, 8, 1191),
+					['Head of Great Tree'] = CFrame.new(3070, 2281, -7335)
+				},
+				{}
+			}
+
+			local PlaceString = {}
+
+			do
+				for name, _ in pairs(Data['Place'][Module.Sea]) do
+					table.insert(PlaceString, name)
+				end
+			end
+
+			Module.PlaceString = PlaceString
+
+			Data['Material'] = {
+				[1] = {
+					["Magma Ore"]      = { "Military Soldier", "Military Spy" },
+					["Leather"]        = { "Brute" },
+					["Scrap Metal"]    = { "Brute" },
+					["Angel Wings"]    = { "God's Guard" },
+					["Fish Tail"]      = { "Fishman Warrior", "Fishman Commando" },
+					["GunPowder"]      = { "Brute", "Pirate" }
+				},
+				[2] = {
+					["Magma Ore"]              = { "Magma Ninja" },
+					["Scrap Metal"]            = { "Swan Pirate" },
+					["Radioactive Material"]   = { "Factory Staff" },
+					["Vampire Fang"]           = { "Vampire" },
+					["Mystic Droplet"]         = { "Water Fighter", "Sea Soldier" },
+				},
+				[3] = {
+					["Mini Tusk"]      = { "Mythological Pirate" },
+					["Fish Tail"]      = { "Fishman Raider", "Fishman Captain" },
+					["Scrap Metal"]    = { "Jungle Pirate" },
+					["Dragon Scale"]   = { "Dragon Crew Archer", "Dragon Crew Warrior" },
+					["Conjured Cocoa"] = { "Cocoa Warrior", "Chocolate Bar Battler", "Sweet Thief", "Candy Rebel" },
+					["Demonic Wisp"]   = { "Demonic Soul" },
+					["Gunpowder"]      = { "Pistol Billionaire" }
+				},
+				[4] = {}
+			}
+
+			Data['Material List'] = (function(v)
+				if v == 1 then
+					return {
+						"Magma Ore",
+						"Leather",
+						"Scrap Metal",
+						"Angel Wings",
+						"Fish Tail",
+						'GunPowder'
+					}
+				end
+
+				if v == 2 then
+					return {
+						"Magma Ore",
+						"Scrap Metal",
+						"Radioactive Material",
+						"Vampire Fang",
+						"Mystic Droplet",
+					}
+				end
+
+				if v == 3 then
+					return {
+						"Mini Tusk",
+						"Fish Tail",
+						"Scrap Metal",
+						"Dragon Scale",
+						"Conjured Cocoa",
+						"Demonic Wisp",
+						"Gunpowder",
+					}
+				end
+
+				return {}
+			end)(Module.Sea)
+
+			Data['Shop'] = {
+				["Fighting Style"] = {
+					["Buy Black Leg"] = { "BuyBlackLeg" },
+					["Buy Electro"] = { "BuyElectro" },
+					["Buy Fishman Karate"] = { "BuyFishmanKarate" },
+					["Buy Dragon Claw"] = { "BlackbeardReward", "DragonClaw", "2" },
+					["Buy Superhuman"] = { "BuySuperhuman" },
+					["Buy Death Step"] = { "BuyDeathStep" },
+					["Buy Sharkman Karate"] = { "BuySharkmanKarate" },
+					["Buy Electric Claw"] = { "BuyElectricClaw" },
+					["Buy Dragon Talon"] = { "BuyDragonTalon" },
+					["Buy GodHuman"] = { "BuyGodhuman" },
+					["Buy Sanguine Art"] = { "BuySanguineArt" },
+					["Buy Divine Art"] = { "BuyDivineArt" },
+				},
+
+				["Ability"] = {
+					["Buy Geppo"] = { "BuyHaki", "Geppo" },
+					["Buy Buso"] = { "BuyHaki", "Buso" },
+					["Buy Soru"] = { "BuyHaki", "Soru" },
+					["Buy Ken"] = { "KenTalk", "Buy" },
+				},
+
+				["Sword"] = {
+					["Buy Katana"] = { "BuyItem", "Katana" },
+					["Buy Cutlass"] = { "BuyItem", "Cutlass" },
+					["Buy Dual Katana"] = { "BuyItem", "Dual Katana" },
+					["Buy Iron Mace"] = { "BuyItem", "Iron Mace" },
+					["Buy Triple Katana"] = { "BuyItem", "Triple Katana" },
+					["Buy Pipe"] = { "BuyItem", "Pipe" },
+					["Buy Dual-Headed Blade"] = { "BuyItem", "Dual-Headed Blade" },
+					["Buy Soul Cane"] = { "BuyItem", "Soul Cane" },
+					["Buy Bisento"] = { "BuyItem", "Bisento" },
+				},
+
+				["Gun"] = {
+					["Buy Musket"] = { "BuyItem", "Musket" },
+					["Buy Slingshot"] = { "BuyItem", "Slingshot" },
+					["Buy Flintlock"] = { "BuyItem", "Flintlock" },
+					["Buy Refined Slingshot"] = { "BuyItem", "Refined Slingshot" },
+					["Buy Dual Flintlock"] = { "BuyItem", "Dual Flintlock" },
+					["Buy Cannon"] = { "BuyItem", "Cannon" },
+					["Buy Kabucha"] = { "BlackbeardReward", "Slingshot", "2" },
+				},
+
+				["Accessories"] = {
+					["Buy Black Cape"] = { "BuyItem", "Black Cape" },
+					["Buy Swordsman Hat"] = { "BuyItem", "Swordsman Hat" },
+					["Buy Tomoe Ring"] = { "BuyItem", "Tomoe Ring" },
+				},
+
+				["Race"] = {
+					["Ghoul Race"] = { "Ectoplasm", "Change", 4 },
+					["Cyborg Race"] = { "CyborgTrainer", "Buy" },
+				},
+			}
+
+			function Data:GetMaterail(a)
+				return self['Material'][Module.Sea][a]
+			end
+
+			return Data
+		end)()
 	end
 
 	Module.TweenBodyVelocity = (function()
