@@ -10,9 +10,11 @@
 
 ## 📊 System Status
 
-![Main System](https://img.shields.io/badge/Main%20System-Operational-success?style=flat-square&logo=checkmarx)
-![PVP Mode](https://img.shields.io/badge/PVP%20Mode-Operational-success?style=flat-square&logo=checkmarx)
-![Safety](https://img.shields.io/badge/Safety-Caution-yellow?style=flat-square&logo=alert) *May receive security kick*
+| Component | Status | Notes |
+|-----------|--------|-------|
+| Main System | ![Operational](https://img.shields.io/badge/Operational-success?style=flat-square) | All systems running |
+| PVP Mode | ![Operational](https://img.shields.io/badge/Operational-success?style=flat-square) | Fully functional |
+| Safety | ![Caution](https://img.shields.io/badge/Caution-yellow?style=flat-square) | May receive security kick |
 
 ---
 
