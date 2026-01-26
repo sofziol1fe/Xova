@@ -2144,4 +2144,6 @@ return(function(Utils)
             end
         end)
     end
+    
+    return Module
 end)
